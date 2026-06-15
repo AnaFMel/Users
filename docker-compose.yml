@@ -1,0 +1,56 @@
+services:
+  # BANCO DE DADOS (MariaDB)
+  users-db:
+    image: mariadb:10.11
+    container_name: users-db
+    environment:
+      MYSQL_ROOT_PASSWORD: SenhaAdmin123!
+      MYSQL_DATABASE: UsersDb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # MENSAGERIA (RabbitMQ Alpine)
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: microservices-mq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - microservices-net
+
+  # API (.NET Alpine)
+  users-api:
+    image: usersapi:dev
+    container_name: users-api
+    build:
+      context: .
+      dockerfile: Users.API/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__MySql=Server=users-db;Port=3306;Database=UsersDb;Uid=root;Pwd=SenhaAdmin123!;
+    networks:
+      - microservices-net
+    depends_on:
+      rabbitmq:
+        condition: service_started
+      users-db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
+
+networks:
+  microservices-net:
+    driver: bridge

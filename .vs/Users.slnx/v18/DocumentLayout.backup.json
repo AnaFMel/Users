@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\FASE 2\\Users\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3144838B-072E-8C27-9E4C-D40C0DE23ACB}|Users.API\\Users.API.csproj|f:\\fase 2\\users\\users.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3144838B-072E-8C27-9E4C-D40C0DE23ACB}|Users.API\\Users.API.csproj|solutionrelative:users.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3144838B-072E-8C27-9E4C-D40C0DE23ACB}|Users.API\\Users.API.csproj|f:\\fase 2\\users\\users.api\\users.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{3144838B-072E-8C27-9E4C-D40C0DE23ACB}|Users.API\\Users.API.csproj|solutionrelative:users.api\\users.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E07CFA76-7288-4275-9FCB-C378EFB750E0}|Users.Infra.Data\\Users.Infra.Data.csproj|f:\\fase 2\\users\\users.infra.data\\migrations\\20260614230744_initialmigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E07CFA76-7288-4275-9FCB-C378EFB750E0}|Users.Infra.Data\\Users.Infra.Data.csproj|solutionrelative:users.infra.data\\migrations\\20260614230744_initialmigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "F:\\FASE 2\\Users\\Users.API\\Program.cs",
+              "RelativeDocumentMoniker": "Users.API\\Program.cs",
+              "ToolTip": "F:\\FASE 2\\Users\\Users.API\\Program.cs",
+              "RelativeToolTip": "Users.API\\Program.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-14T23:16:30.063Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Users.API.http",
+              "DocumentMoniker": "F:\\FASE 2\\Users\\Users.API\\Users.API.http",
+              "RelativeDocumentMoniker": "Users.API\\Users.API.http",
+              "ToolTip": "F:\\FASE 2\\Users\\Users.API\\Users.API.http",
+              "RelativeToolTip": "Users.API\\Users.API.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-06-14T23:08:11.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20260614230744_InitialMigration.cs",
+              "DocumentMoniker": "F:\\FASE 2\\Users\\Users.Infra.Data\\Migrations\\20260614230744_InitialMigration.cs",
+              "RelativeDocumentMoniker": "Users.Infra.Data\\Migrations\\20260614230744_InitialMigration.cs",
+              "ToolTip": "F:\\FASE 2\\Users\\Users.Infra.Data\\Migrations\\20260614230744_InitialMigration.cs",
+              "RelativeToolTip": "Users.Infra.Data\\Migrations\\20260614230744_InitialMigration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-14T23:07:44.47Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

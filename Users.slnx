@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Users.API/Users.API.csproj" />
+  <Project Path="Users.Domain/Users.Domain.csproj" Id="a5a229ca-59bc-4c84-84b5-bf9ab5eed813" />
+  <Project Path="Users.Infra.CrossCutting/Users.Infra.CrossCutting.csproj" Id="86f7dd48-dddc-4719-801a-47775c6b2448" />
+  <Project Path="Users.Infra.Data/Users.Infra.Data.csproj" Id="e07cfa76-7288-4275-9fcb-c378efb750e0" />
+</Solution>
