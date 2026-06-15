@@ -22,6 +22,9 @@ namespace Users.API.Endpoints
 
                 await _repository.AddAsync(user);
 
+                //Aqui preciso implementar a adição do usuário num service, pra poder fazer transação e publicar o evento junto
+                //await publishEndpoint.Publish(new UserCreatedEvent(user.Id, user.Email, user.Name, user.RoleId));
+
                 var response = _mapper.Map(user);
 
                 return Results.Created($"/api/users/{response.Id}", response);

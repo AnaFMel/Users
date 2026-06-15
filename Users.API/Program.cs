@@ -16,6 +16,26 @@ builder.Services.AddDbContext<MySqlContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString(nameof(Database.MySql)));
 }, ServiceLifetime.Scoped);
 
+builder.Services.AddMassTransit(x =>
+{
+    x.AddEntityFrameworkOutbox<AppDbContext>(o =>
+    {
+        o.UseMySQL();
+        o.UseBusOutbox();
+    });
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("rabbitmq", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+});
+
 builder.Services.AddDependencies(builder.Configuration);
 builder.Services.AddJwtSecurity(builder.Configuration);
 builder.Services.AddPolicies();

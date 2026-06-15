@@ -35,6 +35,12 @@ namespace Users.Infra.Data.Contexts
         {
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration(_passwordService));
+
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
+
+            //Preciso gerar uma migration pra contemplar a implementação do mass transit - dotnet ef migrations add AddMassTransitOutbox
         }
     }
 }
