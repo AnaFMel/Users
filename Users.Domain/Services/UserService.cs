@@ -1,4 +1,7 @@
-﻿using Users.Domain.Entities;
+﻿using MassTransit;
+using MassTransit.Transports;
+using Users.Domain.Entities;
+using Users.Domain.Events;
 using Users.Domain.Repositories;
 
 namespace Users.Domain.Services
@@ -7,11 +10,25 @@ namespace Users.Domain.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly PasswordService _passwordService;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public UserService(IUserRepository userRepository, PasswordService passwordService)
+        public UserService(IUserRepository userRepository, PasswordService passwordService, IPublishEndpoint publishEndpoint)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
+            _publishEndpoint = publishEndpoint;
+        }
+
+
+        public async Task Add(User user, CancellationToken cancellationToken)
+        {
+            user.SetPassword(_passwordService.CreateHash(user.Password));
+
+            await _userRepository.AddAsync(user, cancellationToken);
+
+            await _publishEndpoint.Publish(new UserCreatedEvent(user.Id, user.Email, user.Name, user.RoleId), cancellationToken);
+
+            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<User> Auth(string email, string password, CancellationToken cancellationToken)
@@ -28,3 +45,4 @@ namespace Users.Domain.Services
         }
     }
 }
+

@@ -48,6 +48,10 @@ F:\FASE 2\Users\Users.API\bin\Debug\net10.0\Humanizer.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\K4os.Compression.LZ4.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\K4os.Compression.LZ4.Streams.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\K4os.Hash.xxHash.dll
+F:\FASE 2\Users\Users.API\bin\Debug\net10.0\MassTransit.dll
+F:\FASE 2\Users\Users.API\bin\Debug\net10.0\MassTransit.Abstractions.dll
+F:\FASE 2\Users\Users.API\bin\Debug\net10.0\MassTransit.EntityFrameworkCoreIntegration.dll
+F:\FASE 2\Users\Users.API\bin\Debug\net10.0\MassTransit.RabbitMqTransport.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
@@ -75,6 +79,7 @@ F:\FASE 2\Users\Users.API\bin\Debug\net10.0\Mono.TextTemplating.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\MySql.Data.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\MySql.EntityFrameworkCore.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\Newtonsoft.Json.dll
+F:\FASE 2\Users\Users.API\bin\Debug\net10.0\RabbitMQ.Client.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\Riok.Mapperly.Abstractions.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\System.CodeDom.dll
 F:\FASE 2\Users\Users.API\bin\Debug\net10.0\System.Composition.AttributedModel.dll

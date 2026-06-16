@@ -27,12 +27,9 @@
         public int RoleId { get; private set; }
         public Role? Role { get; private set; }
 
-        public void Update(string? name, string? email, string? passwordHash, int? roleId)
+        public void SetPassword(string passwordHash)
         {
-            if (!string.IsNullOrWhiteSpace(name)) Name = name;
-            if (!string.IsNullOrWhiteSpace(email)) Email = email;
-            if (!string.IsNullOrWhiteSpace(passwordHash)) Password = passwordHash;
-            if (roleId.HasValue) RoleId = roleId.Value;
+            Password = passwordHash;
         }
     }
 }

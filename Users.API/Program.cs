@@ -5,6 +5,7 @@ using Users.API.Endpoints;
 using Users.API.Profiles;
 using Users.Infra.Data.Contexts;
 using Users.Infra.CrossCutting.IoC;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +19,9 @@ builder.Services.AddDbContext<MySqlContext>(options =>
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddEntityFrameworkOutbox<AppDbContext>(o =>
+    x.AddEntityFrameworkOutbox<MySqlContext>(o =>
     {
-        o.UseMySQL();
+        o.UseMySql();
         o.UseBusOutbox();
     });
 
@@ -71,8 +72,6 @@ app.MapUserEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
-
-app.UseHttpsRedirection();
 
 app.Run();
 

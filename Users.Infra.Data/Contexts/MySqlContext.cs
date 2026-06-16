@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Users.Domain.Entities;
 using Users.Domain.Services;
@@ -39,8 +40,6 @@ namespace Users.Infra.Data.Contexts
             modelBuilder.AddInboxStateEntity();
             modelBuilder.AddOutboxMessageEntity();
             modelBuilder.AddOutboxStateEntity();
-
-            //Preciso gerar uma migration pra contemplar a implementação do mass transit - dotnet ef migrations add AddMassTransitOutbox
         }
     }
 }

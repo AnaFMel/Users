@@ -8,6 +8,9 @@
     ".NETCoreApp,Version=v10.0": {
       "Users.API/1.0.0": {
         "dependencies": {
+          "MassTransit": "9.1.2",
+          "MassTransit.EntityFrameworkCore": "9.1.2",
+          "MassTransit.RabbitMQ": "9.1.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.7",
           "Microsoft.AspNetCore.OpenApi": "10.0.7",
           "Microsoft.EntityFrameworkCore.Design": "10.0.7",
@@ -76,6 +79,49 @@
           "lib/net6.0/K4os.Hash.xxHash.dll": {
             "assemblyVersion": "1.0.8.0",
             "fileVersion": "1.0.8.0"
+          }
+        }
+      },
+      "MassTransit/9.1.2": {
+        "dependencies": {
+          "MassTransit.Abstractions": "9.1.2"
+        },
+        "runtime": {
+          "lib/net10.0/MassTransit.dll": {
+            "assemblyVersion": "9.1.2.0",
+            "fileVersion": "9.1.2.0"
+          }
+        }
+      },
+      "MassTransit.Abstractions/9.1.2": {
+        "runtime": {
+          "lib/net10.0/MassTransit.Abstractions.dll": {
+            "assemblyVersion": "9.1.2.0",
+            "fileVersion": "9.1.2.0"
+          }
+        }
+      },
+      "MassTransit.EntityFrameworkCore/9.1.2": {
+        "dependencies": {
+          "MassTransit": "9.1.2",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/MassTransit.EntityFrameworkCoreIntegration.dll": {
+            "assemblyVersion": "9.1.2.0",
+            "fileVersion": "9.1.2.0"
+          }
+        }
+      },
+      "MassTransit.RabbitMQ/9.1.2": {
+        "dependencies": {
+          "MassTransit": "9.1.2",
+          "RabbitMQ.Client": "7.2.1"
+        },
+        "runtime": {
+          "lib/net10.0/MassTransit.RabbitMqTransport.dll": {
+            "assemblyVersion": "9.1.2.0",
+            "fileVersion": "9.1.2.0"
           }
         }
       },
@@ -602,6 +648,14 @@
           }
         }
       },
+      "RabbitMQ.Client/7.2.1": {
+        "runtime": {
+          "lib/net8.0/RabbitMQ.Client.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.2.1.0"
+          }
+        }
+      },
       "Riok.Mapperly/4.3.1": {
         "runtime": {
           "lib/netstandard2.0/Riok.Mapperly.Abstractions.dll": {
@@ -746,7 +800,8 @@
       },
       "Users.Domain/1.0.0": {
         "dependencies": {
-          "BCrypt.Net-Next": "4.2.0"
+          "BCrypt.Net-Next": "4.2.0",
+          "MassTransit": "9.1.2"
         },
         "runtime": {
           "Users.Domain.dll": {
@@ -770,6 +825,9 @@
       },
       "Users.Infra.Data/1.0.0": {
         "dependencies": {
+          "MassTransit": "9.1.2",
+          "MassTransit.EntityFrameworkCore": "9.1.2",
+          "MassTransit.RabbitMQ": "9.1.2",
           "Microsoft.EntityFrameworkCore": "10.0.7",
           "MySql.EntityFrameworkCore": "10.0.7",
           "Users.Domain": "1.0.0"
@@ -837,6 +895,34 @@
       "sha512": "sha512-Wp2F7BamQ2Q/7Hk834nV9vRQapgcr8kgv9Jvfm8J3D0IhDqZMMl+a2yxUq5ltJitvXvQfB8W6K4F4fCbw/P6YQ==",
       "path": "k4os.hash.xxhash/1.0.8",
       "hashPath": "k4os.hash.xxhash.1.0.8.nupkg.sha512"
+    },
+    "MassTransit/9.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7rHsXnvoQ+YpKBlWhkBPwkkbq9kK+mK2hro3Z7m1CfCqVUZPsDh/lmkuVkEXKsr+mY6fgG3rxQLaLTYVYaqsEw==",
+      "path": "masstransit/9.1.2",
+      "hashPath": "masstransit.9.1.2.nupkg.sha512"
+    },
+    "MassTransit.Abstractions/9.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-o2MymiTaxaJ0LUNm6W/8taD1u6Q/hyee1FwM/XvJ8l4IHgGBOVllPLuViYiI/XDu/t86ErjXOJqXrkOB/+ZrCg==",
+      "path": "masstransit.abstractions/9.1.2",
+      "hashPath": "masstransit.abstractions.9.1.2.nupkg.sha512"
+    },
+    "MassTransit.EntityFrameworkCore/9.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qD2Fu/BfKKbdQw/fCoDhZjZNjQtpbENWxhhEacWbZiiLg0Q1Or8mUep3ZmNIAiSUhgjJBUhKnH42Na9Lq1iZ+g==",
+      "path": "masstransit.entityframeworkcore/9.1.2",
+      "hashPath": "masstransit.entityframeworkcore.9.1.2.nupkg.sha512"
+    },
+    "MassTransit.RabbitMQ/9.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yc6qZJdHl5M+7ceTbgUOXXQnl6csuv3Sguv/DWY5xtrkPk8uRwI9isGowDeMGjJgNmbWWy1K7LXjNw+xY+Y5XA==",
+      "path": "masstransit.rabbitmq/9.1.2",
+      "hashPath": "masstransit.rabbitmq.9.1.2.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.7": {
       "type": "package",
@@ -1019,6 +1105,13 @@
       "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "path": "newtonsoft.json/13.0.3",
       "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+    },
+    "RabbitMQ.Client/7.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YKXEfg9fVQiTKgZlvIhAfPSFaamEgi8DsQmisCH0IAsU4FYLrtoguDrDj6JtJVGUt40QPnBLRH6fTQcAC4qsOg==",
+      "path": "rabbitmq.client/7.2.1",
+      "hashPath": "rabbitmq.client.7.2.1.nupkg.sha512"
     },
     "Riok.Mapperly/4.3.1": {
       "type": "package",

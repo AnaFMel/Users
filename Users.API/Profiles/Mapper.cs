@@ -13,7 +13,6 @@ namespace Users.API.Profiles
         public partial UserResponse Map(User source);
 
         public partial User Map(CreateUserRequest source);
-        public partial User Map(UpdateUserRequest source);
 
         public partial IEnumerable<UserResponse> Map(IEnumerable<User> source);
     }

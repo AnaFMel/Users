@@ -1,12 +1,6 @@
-
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 8080
-
-# Bibliotecas nativas essenciais para o driver da Oracle rodar estável no Alpine
-RUN apk add --no-cache libssl3 libstdc++ libgcc krb5-libs
-
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
