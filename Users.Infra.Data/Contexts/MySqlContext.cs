@@ -24,12 +24,21 @@ namespace Users.Infra.Data.Contexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = _configuration.GetConnectionString(nameof(Contexts.Database.MySql));
+                var user = Environment.GetEnvironmentVariable("MARIADB_USER") ?? "root";
+                var password = Environment.GetEnvironmentVariable("MARIADB_PASSWORD") ?? "SenhaAdmin123!";
+                var database = Environment.GetEnvironmentVariable("MARIADB_DATABASE") ?? "users_db";
+                var host = Environment.GetEnvironmentVariable("MARIADB_HOST") ?? "localhost";
+                var port = Environment.GetEnvironmentVariable("MARIADB_HOST") is null ? "3307" : "3306";
 
-                if (string.IsNullOrEmpty(connectionString)) throw new InvalidOperationException($"The connection string for the database {nameof(Contexts.Database.MySql)} was not found.");
+                var connectionString = $"Server={host};Port={port};Database={database};Uid={user};Pwd={password}";
 
-                optionsBuilder.UseMySQL(connectionString);
+                if (!string.IsNullOrWhiteSpace(connectionString))
+                {
+                    optionsBuilder.UseMySQL(connectionString);
+                }
             }
+
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

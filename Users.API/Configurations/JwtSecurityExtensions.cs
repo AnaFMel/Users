@@ -2,16 +2,16 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
-using Users.Infra.CrossCutting.Security;
 
 namespace Users.API.Configurations
 {
     public static class JwtSecurityExtensions
     {
+        private static readonly string jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? "root";
+        private static readonly string[] jwtIssuer = [Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "FiapCloudGames"];
+
         public static IServiceCollection AddJwtSecurity(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtOptions = configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>() ?? throw new Exception("JwtOptions não encontrado."); ;
-
             services
             .AddAuthentication(options =>
             {
@@ -23,13 +23,13 @@ namespace Users.API.Configurations
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
 
-                var bytes = Encoding.UTF8.GetBytes(jwtOptions.Key);
+                var bytes = Encoding.UTF8.GetBytes(jwtKey);
                 var symmetricSecurityKey = new SymmetricSecurityKey(bytes);
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     IssuerSigningKey = symmetricSecurityKey,
-                    ValidIssuers = jwtOptions.Issuers,
+                    ValidIssuers = jwtIssuer,
                     ClockSkew = TimeSpan.Zero,
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,

@@ -12,15 +12,13 @@ namespace Users.Infra.CrossCutting.IoC
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<MySqlContext>();
+            services.AddDbContext<MySqlContext>();
 
             services.AddTransient<JwtService>();
             services.AddTransient<UserService>();
             services.AddTransient<PasswordService>();
 
             services.AddTransient<IUserRepository, UserRepository>();
-
-            services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
             return services;
         }

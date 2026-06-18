@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nB53nVnv7Io=",
+  "dgSpecHash": "G+twF2tgV4g=",
   "success": true,
-  "projectFilePath": "F:\\FASE 2\\Users\\Users.Domain\\Users.Domain.csproj",
+  "projectFilePath": "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.Domain\\Users.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\AnaC\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\AnaC\\.nuget\\packages\\masstransit\\8.3.4\\masstransit.8.3.4.nupkg.sha512",

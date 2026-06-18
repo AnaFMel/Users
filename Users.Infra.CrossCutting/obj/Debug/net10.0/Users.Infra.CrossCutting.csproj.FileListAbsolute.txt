@@ -34,3 +34,21 @@ F:\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutt
 F:\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\refint\Users.Infra.CrossCutting.dll
 F:\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.pdb
 F:\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\ref\Users.Infra.CrossCutting.dll
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\bin\Debug\net10.0\Users.Infra.CrossCutting.deps.json
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\bin\Debug\net10.0\Users.Infra.CrossCutting.dll
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\bin\Debug\net10.0\Users.Infra.CrossCutting.pdb
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\bin\Debug\net10.0\Users.Domain.dll
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\bin\Debug\net10.0\Users.Infra.Data.dll
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\bin\Debug\net10.0\Users.Domain.pdb
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\bin\Debug\net10.0\Users.Infra.Data.pdb
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.csproj.AssemblyReference.cache
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.GeneratedMSBuildEditorConfig.editorconfig
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.AssemblyInfoInputs.cache
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.AssemblyInfo.cs
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.csproj.CoreCompileInputs.cache
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.sourcelink.json
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.In.DFE61493.Up2Date
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.dll
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\refint\Users.Infra.CrossCutting.dll
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\Users.Infra.CrossCutting.pdb
+F:\Ana - Pós Tech\FASE 2\Users\Users.Infra.CrossCutting\obj\Debug\net10.0\ref\Users.Infra.CrossCutting.dll

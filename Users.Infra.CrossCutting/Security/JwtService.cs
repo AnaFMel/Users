@@ -8,12 +8,9 @@ namespace Users.Infra.CrossCutting.Security
 {
     public class JwtService
     {
-        private readonly IOptions<JwtOptions> _jwtOptions;
-
-        public JwtService(IOptions<JwtOptions> jwtOptions)
-        {
-            _jwtOptions = jwtOptions;
-        }
+        private readonly string jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? "root";
+        private readonly string[] jwtIssuer = [Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "FiapCloudGames"];
+        private readonly int jwtSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_SECONDS") ?? "3600");
 
         public string GenerateToken(string email, string name, string role)
         {
@@ -26,17 +23,17 @@ namespace Users.Infra.CrossCutting.Security
                 ]
             );
 
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Value.Key));
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
 
             var securityTokenDescriptor = new SecurityTokenDescriptor
             {
                 SigningCredentials = signingCredentials,
                 Subject = claimsIdentity,
-                Issuer = _jwtOptions.Value.Issuers[0],
+                Issuer = jwtIssuer[0],
                 Audience = name,
                 NotBefore = DateTime.Now,
-                Expires = DateTime.Now + TimeSpan.FromSeconds(_jwtOptions.Value.Seconds)
+                Expires = DateTime.Now + TimeSpan.FromSeconds(jwtSeconds)
             };
 
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();

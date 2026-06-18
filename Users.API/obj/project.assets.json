@@ -3443,11 +3443,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\FASE 2\\Users\\Users.API\\Users.API.csproj",
+      "projectUniqueName": "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.API\\Users.API.csproj",
       "projectName": "Users.API",
-      "projectPath": "F:\\FASE 2\\Users\\Users.API\\Users.API.csproj",
+      "projectPath": "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.API\\Users.API.csproj",
       "packagesPath": "C:\\Users\\AnaC\\.nuget\\packages\\",
-      "outputPath": "F:\\FASE 2\\Users\\Users.API\\obj\\",
+      "outputPath": "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3470,11 +3470,11 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "F:\\FASE 2\\Users\\Users.Domain\\Users.Domain.csproj": {
-              "projectPath": "F:\\FASE 2\\Users\\Users.Domain\\Users.Domain.csproj"
+            "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.Domain\\Users.Domain.csproj": {
+              "projectPath": "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.Domain\\Users.Domain.csproj"
             },
-            "F:\\FASE 2\\Users\\Users.Infra.CrossCutting\\Users.Infra.CrossCutting.csproj": {
-              "projectPath": "F:\\FASE 2\\Users\\Users.Infra.CrossCutting\\Users.Infra.CrossCutting.csproj"
+            "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.Infra.CrossCutting\\Users.Infra.CrossCutting.csproj": {
+              "projectPath": "F:\\Ana - Pós Tech\\FASE 2\\Users\\Users.Infra.CrossCutting\\Users.Infra.CrossCutting.csproj"
             }
           }
         }
