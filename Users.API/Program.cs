@@ -1,10 +1,13 @@
+using MassTransit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Text.Json;
 using Users.API.Configurations;
 using Users.API.Endpoints;
 using Users.API.Profiles;
-using Users.Infra.Data.Contexts;
 using Users.Infra.CrossCutting.IoC;
-using MassTransit;
+using Users.Infra.Data.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,13 @@ builder.Services.AddJwtSecurity(builder.Configuration);
 builder.Services.AddPolicies();
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<Mapper>();
+
+
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy(), tags: ["live"])
+    .AddDbContextCheck<MySqlContext>(
+        name: "mysql",
+        tags: ["ready"]);
 
 #region MassTransit (RabbitMQ)
 
@@ -63,6 +73,39 @@ using (var scope = app.Services.CreateScope())
 
     context.Database.EnsureCreated();
 }
+#endregion
+
+
+#region Health Checks
+
+app.MapHealthChecks("/health/live", new HealthCheckOptions
+{
+    Predicate = check => check.Tags.Contains("live")
+});
+
+app.MapHealthChecks("/health/ready", new HealthCheckOptions
+{
+    Predicate = check => check.Tags.Contains("ready"),
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+
+        var response = new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(entry => new
+            {
+                name = entry.Key,
+                status = entry.Value.Status.ToString(),
+                description = entry.Value.Description,
+                error = entry.Value.Exception?.Message
+            })
+        };
+
+        await context.Response.WriteAsync(JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
+    }
+});
+
 #endregion
 
 app.UseMiddleware<ExceptionMiddleware>();
