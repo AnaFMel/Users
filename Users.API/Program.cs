@@ -53,6 +53,12 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+builder.Services.Configure<MassTransitHostOptions>(options =>
+{
+    options.WaitUntilStarted = false;
+    options.StartTimeout = TimeSpan.FromSeconds(30);
+});
+
 #endregion
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
