@@ -8,7 +8,7 @@ namespace Users.Infra.CrossCutting.Security
 {
     public class JwtService
     {
-        private readonly string jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? "root";
+        private readonly string jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? "M72gsn/ZtfvDSgyBgWNBOYf8HAHBO7FGIwiKPtwipmdMY6ZbdgrJ66yBLnXKk9O8P6fjj7G+BoE5+Ou/xfEgNQ==";
         private readonly string[] jwtIssuer = [Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "FiapCloudGames"];
         private readonly int jwtSeconds = Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_SECONDS") ?? "3600");
 
