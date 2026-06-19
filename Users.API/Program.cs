@@ -6,6 +6,7 @@ using System.Text.Json;
 using Users.API.Configurations;
 using Users.API.Endpoints;
 using Users.API.Profiles;
+using Users.API.Extensions;
 using Users.Infra.CrossCutting.IoC;
 using Users.Infra.Data.Contexts;
 
@@ -13,13 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddCors();
-
 builder.Services.AddDependencies(builder.Configuration);
 builder.Services.AddJwtSecurity(builder.Configuration);
 builder.Services.AddPolicies();
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<Mapper>();
-
 
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy(), tags: ["live"])
@@ -70,20 +69,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
 var app = builder.Build();
 
-#region Executar Migrations
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<MySqlContext>();
-
-    context.Database.EnsureCreated();
-}
-#endregion
-
-
 #region Health Checks
-
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {
     Predicate = check => check.Tags.Contains("live")
@@ -111,7 +97,6 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
         await context.Response.WriteAsync(JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
     }
 });
-
 #endregion
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -119,7 +104,9 @@ app.UseForwardedHeaders();
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapUserEndpoints();
 
-app.Run();
+app.ApplyMigrations();
 
+app.Run();
