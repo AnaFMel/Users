@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Users.Infra.Data.Contexts;
 
@@ -10,9 +11,11 @@ using Users.Infra.Data.Contexts;
 namespace Users.Infra.Data.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    partial class MySqlContextModelSnapshot : ModelSnapshot
+    [Migration("20260620232113_RemoveMassTransitOutbox")]
+    partial class RemoveMassTransitOutbox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,7 +111,7 @@ namespace Users.Infra.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@fiapcloud.com.br",
                             Name = "Admin",
-                            Password = "$2a$12$8b5.j/Yj6EwG.Gl.x0zame3GUA7PGid9N1/twuLSPFAuk/b9wR5Me",
+                            Password = "$2a$12$gjZJ.srEyPnLQOd926FweOccmMHKVw82fZKboGl0ylQnqbB4KaMoq",
                             RoleId = 1,
                             Status = "\0"
                         });

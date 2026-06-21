@@ -30,12 +30,6 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddEntityFrameworkOutbox<MySqlContext>(o =>
-    {
-        o.UseMySql();
-        o.UseBusOutbox();
-    });
-
     x.UsingRabbitMq((context, cfg) =>
     {
         var host = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
@@ -54,7 +48,7 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.Configure<MassTransitHostOptions>(options =>
 {
-    options.WaitUntilStarted = false;
+    options.WaitUntilStarted = true;
     options.StartTimeout = TimeSpan.FromSeconds(30);
 });
 

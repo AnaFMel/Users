@@ -8,6 +8,5 @@ namespace Users.Domain.Repositories
         Task<User?> GetAsync(string email, CancellationToken cancellationToken = default);
         Task<IEnumerable<User>> GetAsync(CancellationToken cancellationToken = default);
         Task AddAsync(User entity, CancellationToken cancellationToken = default);
-        Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

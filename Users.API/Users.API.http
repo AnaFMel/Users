@@ -1,7 +1,8 @@
-@Users.API_HostAddress = http://localhost:5000
+@Users.API_HostAddress = http://localhost:30100
 
 ### 1. Criar usuário
 POST {{Users.API_HostAddress}}/api/users/create
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
@@ -17,6 +18,7 @@ Content-Type: application/json
 # @name login
 POST {{Users.API_HostAddress}}/api/users/auth
 Content-Type: application/json
+
 {
   "email": "admin@fiapcloud.com.br",
   "password": "admin"
@@ -24,7 +26,7 @@ Content-Type: application/json
 
 ###
 
-# Armazena o token JWT gerado no passo anterior
+# # Armazena o token JWT gerado no passo anterior
 @authToken = {{login.response.body.$.Token}}
 
 
@@ -45,22 +47,3 @@ GET {{Users.API_HostAddress}}/api/users/usuario.teste@fiap.com
 Authorization: Bearer {{authToken}}
 
 ###
-
-### 6. Atualizar usuário
-PUT {{Users.API_HostAddress}}/api/users/2
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-{
-  "id": 2,
-  "name": "Usuário Atualizado",
-  "email": "usuario.teste.atualizado@fiap.com",
-  "password": "SenhaNova@123!",
-  "roleId": 2
-}
-
-###
-
-### 7. Desativar usuário
-DELETE {{Users.API_HostAddress}}/api/users/2/deactivate
-Authorization: Bearer {{authToken}}

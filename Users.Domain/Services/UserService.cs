@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using MassTransit.Transports;
 using Users.Domain.Entities;
 using Users.Domain.Events;
 using Users.Domain.Repositories;
@@ -27,8 +26,6 @@ namespace Users.Domain.Services
             await _userRepository.AddAsync(user, cancellationToken);
 
             await _publishEndpoint.Publish(new UserCreatedEvent(user.Id, user.Email, user.Name, user.RoleId), cancellationToken);
-
-            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<User> Auth(string email, string password, CancellationToken cancellationToken)

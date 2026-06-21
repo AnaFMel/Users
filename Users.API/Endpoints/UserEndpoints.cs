@@ -36,10 +36,13 @@ namespace Users.API.Endpoints
 
                 await _service.Add(user, cancellationToken);
 
-                var response = _mapper.Map(user);
+                var userCreated = await _repository.GetAsync(user.Id, cancellationToken);
+
+                var response = _mapper.Map(userCreated);
 
                 return Results.Created($"/api/users/{response.Id}", response);
-            });
+            })
+            .RequireAuthorization(nameof(Policy.Admin));
 
             group.MapGet("/", async (Mapper _mapper, IUserRepository _repository, CancellationToken cancellationToken) =>
             {

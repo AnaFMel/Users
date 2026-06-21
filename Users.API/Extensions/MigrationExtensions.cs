@@ -8,21 +8,9 @@ namespace Users.API.Extensions
         public static void ApplyMigrations(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
-            var services = scope.ServiceProvider;
+            var context = scope.ServiceProvider.GetRequiredService<MySqlContext>();
 
-            try
-            {
-                var context = services.GetRequiredService<MySqlContext>();
-
-                var strategy = context.Database.CreateExecutionStrategy();
-
-                strategy.Execute(() => { context.Database.EnsureCreated(); });
-            }
-            catch (Exception ex)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "Ocorreu um erro ao aplicar as migrations no MariaDB.");
-            }
+            if (context.Database.GetPendingMigrations().Any()) context.Database.Migrate();
         }
     }
 }
