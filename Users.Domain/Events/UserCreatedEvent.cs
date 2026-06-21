@@ -1,6 +1,6 @@
 ﻿namespace Users.Domain.Events
 {
-    internal class UserCreatedEvent
+    public class UserCreatedEvent
     {
         public UserCreatedEvent(int userId, string userName, string userEmail, int userRole)
         {

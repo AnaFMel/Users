@@ -9,6 +9,7 @@ using Users.API.Profiles;
 using Users.API.Extensions;
 using Users.Infra.CrossCutting.IoC;
 using Users.Infra.Data.Contexts;
+using Users.Domain.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,8 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddMassTransit(x =>
 {
+    var exchangeName = Environment.GetEnvironmentVariable("USER_CREATED_EXCHANGE_NAME") ?? "user-created-event";
+
     x.UsingRabbitMq((context, cfg) =>
     {
         var host = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
@@ -41,6 +44,8 @@ builder.Services.AddMassTransit(x =>
             h.Username(user);
             h.Password(password);
         });
+
+        cfg.Message<UserCreatedEvent>(m => m.SetEntityName(exchangeName));
 
         cfg.ConfigureEndpoints(context);
     });
