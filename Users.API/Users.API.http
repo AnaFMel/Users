@@ -27,7 +27,7 @@ Content-Type: application/json
 ###
 
 # # Armazena o token JWT gerado no passo anterior
-@authToken = {{login.response.body.$.Token}}
+@authToken = {{login.response.body.$.token}}
 
 
 ### 3. Obter todos os usuários 

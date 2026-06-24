@@ -1,6 +1,6 @@
-﻿using MassTransit;
+﻿using Fcg.Contracts;
+using MassTransit;
 using Users.Domain.Entities;
-using Users.Domain.Events;
 using Users.Domain.Repositories;
 
 namespace Users.Domain.Services

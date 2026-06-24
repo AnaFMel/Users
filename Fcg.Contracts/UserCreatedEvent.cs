@@ -1,4 +1,4 @@
-﻿namespace Users.Domain.Events
+﻿namespace Fcg.Contracts
 {
     public class UserCreatedEvent
     {
