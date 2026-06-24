@@ -10,6 +10,7 @@ COPY ["Users.API/Users.API.csproj", "Users.API/"]
 COPY ["Users.Domain/Users.Domain.csproj", "Users.Domain/"]
 COPY ["Users.Infra.Data/Users.Infra.Data.csproj", "Users.Infra.Data/"]
 COPY ["Users.Infra.CrossCutting/Users.Infra.CrossCutting.csproj", "Users.Infra.CrossCutting/"]
+COPY ["Fcg.Contracts/Fcg.Contracts.csproj", "Fcg.Contracts/"]
 
 RUN dotnet restore "Users.API/Users.API.csproj"
 
