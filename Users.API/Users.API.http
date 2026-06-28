@@ -1,4 +1,4 @@
-@Users.API_HostAddress = http://localhost:30100
+@Users.API_HostAddress = http://localhost:5099
 
 ### 1. Criar usuário
 POST {{Users.API_HostAddress}}/api/users/create
