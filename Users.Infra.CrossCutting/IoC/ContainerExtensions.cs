@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Users.Domain.Repositories;
 using Users.Domain.Services;
-using Users.Infra.CrossCutting.Security;
+using Users.Domain.Services.Security;
 using Users.Infra.Data.Contexts;
 using Users.Infra.Data.Repositories;
 

@@ -4,7 +4,6 @@ using Users.API.Profiles;
 using Users.Domain.Enums;
 using Users.Domain.Repositories;
 using Users.Domain.Services;
-using Users.Infra.CrossCutting.Security;
 
 namespace Users.API.Endpoints
 {
@@ -14,15 +13,13 @@ namespace Users.API.Endpoints
         {
             var group = routes.MapGroup("/api/users").WithTags("Users");
 
-            group.MapPost("/auth", async (LoginRequest dto, Mapper _mapper, UserService _userService, JwtService _jwtService, CancellationToken cancellationToken) =>
+            group.MapPost("/auth", async (LoginRequest dto, UserService _userService, CancellationToken cancellationToken) =>
             {
                 try
                 {
-                    var user = await _userService.Auth(dto.Email, dto.Password, cancellationToken);
+                    var token = await _userService.Auth(dto.Email, dto.Password, cancellationToken);
 
-                    var token = _jwtService.GenerateToken(user.Email, user.Name, user.Role!.Name);
-
-                    return Results.Ok(new LoginResponse { Email = user.Email, Token = token });
+                    return Results.Ok(new LoginResponse { Email = dto.Email, Token = token });
                 }
                 catch (UnauthorizedAccessException) { return Results.Unauthorized(); }
                 catch (Exception ex) { return Results.BadRequest(new ProblemDetails { Detail = ex.Message }); }
@@ -38,7 +35,7 @@ namespace Users.API.Endpoints
 
                 var userCreated = await _repository.GetAsync(user.Id, cancellationToken);
 
-                var response = _mapper.Map(userCreated);
+                var response = _mapper.Map(userCreated!);
 
                 return Results.Created($"/api/users/{response.Id}", response);
             })
@@ -56,7 +53,7 @@ namespace Users.API.Endpoints
 
             group.MapGet("/{id:int}", async (int id, Mapper _mapper, IUserRepository _repository, CancellationToken cancellationToken) =>
             {
-                var user = await _repository.GetAsync(id);
+                var user = await _repository.GetAsync(id, cancellationToken);
 
                 if (user == null) return Results.NotFound();
 
@@ -68,7 +65,7 @@ namespace Users.API.Endpoints
 
             group.MapGet("/{email}", async (string email, Mapper _mapper, IUserRepository _repository, CancellationToken cancellationToken) =>
             {
-                var user = await _repository.GetAsync(email);
+                var user = await _repository.GetAsync(email, cancellationToken);
 
                 if (user == null) return Results.NotFound();
 
