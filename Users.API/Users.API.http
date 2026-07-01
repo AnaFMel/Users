@@ -1,20 +1,6 @@
 @Users.API_HostAddress = http://localhost:5099
 
-### 1. Criar usuário
-POST {{Users.API_HostAddress}}/api/users/create
-Authorization: Bearer {{authToken}}
-Content-Type: application/json
-
-{
-  "name": "Usuário Teste",
-  "email": "usuario.teste@fiap.com",
-  "password": "Teste@1234!",
-  "roleId": 2
-}
-
-###
-
-### 2. Autenticar e obter token
+### 1. Autenticar e obter token
 # @name login
 POST {{Users.API_HostAddress}}/api/users/auth
 Content-Type: application/json
@@ -26,24 +12,34 @@ Content-Type: application/json
 
 ###
 
-# # Armazena o token JWT gerado no passo anterior
-@authToken = {{login.response.body.$.token}}
+### 2. Criar usuário
+POST {{Users.API_HostAddress}}/api/users/create
+Authorization: Bearer {{login.response.body.$.token}}
+Content-Type: application/json
 
+{
+  "name": "Usuário Teste",
+  "email": "usuario.teste@fiap.com",
+  "password": "Teste@1234!",
+  "roleId": 2
+}
+
+###
 
 ### 3. Obter todos os usuários 
 GET {{Users.API_HostAddress}}/api/users/
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{login.response.body.$.token}}
 
 ###
 
 ### 4. Obter usuário pelo ID
 GET {{Users.API_HostAddress}}/api/users/2
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{login.response.body.$.token}}
 
 ###
 
 ### 5. Obter usuário pelo e-mail
 GET {{Users.API_HostAddress}}/api/users/usuario.teste@fiap.com
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{login.response.body.$.token}}
 
 ###
