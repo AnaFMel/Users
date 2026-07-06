@@ -4,3 +4,4 @@ metadata:
   name: users-api-config
 data:
   MYSQL_HOST: "mysql-service"
+  JWT_SECONDS: "3600"

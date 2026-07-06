@@ -71,7 +71,7 @@ spec:
             - name: JWT_SECONDS
               valueFrom:
                 configMapKeyRef:
-                  name: users-api-mysql-secrets
+                  name: users-api-config
                   key: JWT_SECONDS
             - name: JWT_KEY
               valueFrom:
