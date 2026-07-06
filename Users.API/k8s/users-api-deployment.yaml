@@ -46,22 +46,22 @@ spec:
             - name: MYSQL_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: users-api-config
                   key: MYSQL_HOST
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: app-secrets
+                  name: users-api-mysql-secrets
                   key: MYSQL_DATABASE
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: app-secrets
+                  name: users-api-mysql-secrets
                   key: MYSQL_USER
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: app-secrets
+                  name: users-api-mysql-secrets
                   key: MYSQL_ROOT_PASSWORD
             - name: JWT_ISSUER
               valueFrom:
@@ -71,7 +71,7 @@ spec:
             - name: JWT_SECONDS
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: users-api-mysql-secrets
                   key: JWT_SECONDS
             - name: JWT_KEY
               valueFrom:

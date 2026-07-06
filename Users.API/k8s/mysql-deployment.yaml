@@ -33,12 +33,12 @@ spec:
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: app-secrets
+                  name: users-api-mysql-secrets
                   key: MYSQL_DATABASE
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: app-secrets
+                  name: users-api-mysql-secrets
                   key: MYSQL_ROOT_PASSWORD
           livenessProbe:
             exec:
