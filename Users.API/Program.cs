@@ -1,12 +1,15 @@
 using MassTransit;
+using MassTransit.Topology;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using System.Text.Json;
 using Users.API.Configurations;
 using Users.API.Endpoints;
-using Users.API.Profiles;
 using Users.API.Extensions;
+using Users.API.Profiles;
 using Users.Infra.CrossCutting.IoC;
 using Users.Infra.Data.Contexts;
 
@@ -20,38 +23,49 @@ builder.Services.AddPolicies();
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<Mapper>();
 
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService("UsersAPI"))
+    .WithMetrics(metrics => metrics
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddPrometheusExporter()
+    );
+
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy(), tags: ["live"])
     .AddDbContextCheck<MySqlContext>(
         name: "mysql",
         tags: ["ready"]);
 
-#region MassTransit (RabbitMQ)
-
+#region MassTransit (AWS SQS / LocalStack)
 builder.Services.AddMassTransit(x =>
 {
-    x.UsingRabbitMq((context, cfg) =>
+    x.UsingAmazonSqs((context, cfg) =>
     {
-        var host = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
-        var user = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_USER") ?? "guest";
-        var password = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_PASS") ?? "guest";
+        var localstackHost = Environment.GetEnvironmentVariable("LOCALSTACK_HOST") ?? "localstack";
 
-        cfg.Host(host, "/", h =>
+        cfg.Host(new Uri($"amazonsqs://{localstackHost}:4566"), h =>
         {
-            h.Username(user);
-            h.Password(password);
+            h.AccessKey("test");
+            h.SecretKey("test");
+
+            // Aponta o SQS para o LocalStack
+            h.Config(new Amazon.SQS.AmazonSQSConfig
+            {
+                ServiceURL = $"http://{localstackHost}:4566"
+            });
+
+            // Aponta o SNS para o LocalStack (necessário se sua app faz publish em tópicos SNS)
+            h.Config(new Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceConfig
+            {
+                ServiceURL = $"http://{localstackHost}:4566"
+            });
         });
 
         cfg.ConfigureEndpoints(context);
     });
 });
-
-builder.Services.Configure<MassTransitHostOptions>(options =>
-{
-    options.WaitUntilStarted = true;
-    options.StartTimeout = TimeSpan.FromSeconds(30);
-});
-
 #endregion
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
@@ -93,14 +107,13 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 });
 #endregion
 
+app.MapPrometheusScrapingEndpoint();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseForwardedHeaders();
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapUserEndpoints();
-
 app.ApplyMigrations();
 
 app.Run();
