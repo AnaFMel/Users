@@ -1,3 +1,5 @@
+using Amazon.SimpleNotificationService;
+using Amazon.SQS;
 using MassTransit;
 using MassTransit.Topology;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -43,24 +45,15 @@ builder.Services.AddMassTransit(x =>
 {
     x.UsingAmazonSqs((context, cfg) =>
     {
-        var localstackHost = Environment.GetEnvironmentVariable("LOCALSTACK_HOST") ?? "localstack";
-
-        cfg.Host(new Uri($"amazonsqs://{localstackHost}:4566"), h =>
+        cfg.Host("us-east-1", h =>
         {
             h.AccessKey("test");
             h.SecretKey("test");
 
-            // Aponta o SQS para o LocalStack
-            h.Config(new Amazon.SQS.AmazonSQSConfig
-            {
-                ServiceURL = $"http://{localstackHost}:4566"
-            });
+            var awsEndpoint = builder.Configuration["AWS_ENDPOINT"] ?? "http://localhost:4566";
 
-            // Aponta o SNS para o LocalStack (necessário se sua app faz publish em tópicos SNS)
-            h.Config(new Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceConfig
-            {
-                ServiceURL = $"http://{localstackHost}:4566"
-            });
+            h.Config(new AmazonSQSConfig { ServiceURL = awsEndpoint });
+            h.Config(new AmazonSimpleNotificationServiceConfig { ServiceURL = awsEndpoint });
         });
 
         cfg.ConfigureEndpoints(context);
