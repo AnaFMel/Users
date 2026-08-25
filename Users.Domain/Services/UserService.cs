@@ -44,7 +44,7 @@ namespace Users.Domain.Services
             _logger.LogInformation($"Usuário '{user.Name}' ({user.Email}) cadastrado com sucesso! Id: {user.Id}.");
 
             var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{_queueName}"));
-            await endpoint.Send(new UserCreatedEvent(user.Id, user.Email, user.Name, user.RoleId), cancellationToken);
+            await endpoint.Send(new UserCreatedEvent(user.Id, user.Name, user.Email, user.RoleId), cancellationToken);
 
             _logger.LogInformation($"Evento 'UserCreatedEvent' enviado com sucesso para a fila {_queueName}!" +
                                    $"\nUserId: {user.Id}." +
