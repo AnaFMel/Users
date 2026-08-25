@@ -1,5 +1,6 @@
 ﻿using Fcg.Contracts;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Users.Domain.Entities;
 using Users.Domain.Repositories;
@@ -12,18 +13,25 @@ namespace Users.Domain.Services
         private readonly IUserRepository _userRepository;
         private readonly PasswordService _passwordService;
         private readonly JwtService _jwtService;
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
         private readonly ILogger<UserService> _logger;
+        private readonly string _queueName;
 
-        public UserService(IUserRepository userRepository, PasswordService passwordService, JwtService jwtService, IPublishEndpoint publishEndpoint, ILogger<UserService> logger)
+        public UserService(
+            IUserRepository userRepository,
+            PasswordService passwordService,
+            JwtService jwtService,
+            ISendEndpointProvider sendEndpointProvider,
+            ILogger<UserService> logger,
+            IConfiguration configuration)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
             _jwtService = jwtService;
-            _publishEndpoint = publishEndpoint;
+            _sendEndpointProvider = sendEndpointProvider;
             _logger = logger;
+            _queueName = configuration["USERS_QUEUE_NAME"] ?? "users-queue";
         }
-
 
         public async Task Add(User user, CancellationToken cancellationToken)
         {
@@ -35,9 +43,10 @@ namespace Users.Domain.Services
 
             _logger.LogInformation($"Usuário '{user.Name}' ({user.Email}) cadastrado com sucesso! Id: {user.Id}.");
 
-            await _publishEndpoint.Publish(new UserCreatedEvent(user.Id, user.Email, user.Name, user.RoleId), cancellationToken);
+            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{_queueName}"));
+            await endpoint.Send(new UserCreatedEvent(user.Id, user.Email, user.Name, user.RoleId), cancellationToken);
 
-            _logger.LogInformation("Evento 'UserCreatedEvent' publicado com sucesso!" +
+            _logger.LogInformation($"Evento 'UserCreatedEvent' enviado com sucesso para a fila {_queueName}!" +
                                    $"\nUserId: {user.Id}." +
                                    $"\nUserName: {user.Name}." +
                                    $"\nUserEmail: {user.Email}." +
@@ -72,4 +81,3 @@ namespace Users.Domain.Services
         }
     }
 }
-
