@@ -1,12 +1,10 @@
 using Amazon.SimpleNotificationService;
 using Amazon.SQS;
 using MassTransit;
-using MassTransit.Topology;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
+using Prometheus;
 using System.Text.Json;
 using Users.API.Configurations;
 using Users.API.Endpoints;
@@ -14,6 +12,7 @@ using Users.API.Extensions;
 using Users.API.Profiles;
 using Users.Infra.CrossCutting.IoC;
 using Users.Infra.Data.Contexts;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,15 +23,6 @@ builder.Services.AddJwtSecurity(builder.Configuration);
 builder.Services.AddPolicies();
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<Mapper>();
-
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource.AddService("UsersAPI"))
-    .WithMetrics(metrics => metrics
-        .AddAspNetCoreInstrumentation()
-        .AddHttpClientInstrumentation()
-        .AddRuntimeInstrumentation()
-        .AddPrometheusExporter()
-    );
 
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy(), tags: ["live"])
@@ -100,13 +90,14 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 });
 #endregion
 
-app.MapPrometheusScrapingEndpoint();
+app.UseHttpMetrics();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseForwardedHeaders();
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapUserEndpoints();
+app.MapMetrics();
 app.ApplyMigrations();
 
 app.Run();
