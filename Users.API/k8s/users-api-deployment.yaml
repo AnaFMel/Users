@@ -20,7 +20,7 @@ spec:
           command: 
             - 'sh'
             - '-c'
-            - 'until nc -z -w 2 mysql-service 3306; do echo "aguardando o mysql responder na porta..."; sleep 2; done; echo "Porta aberta! Aguardando 10 segundos para o servidor estabilizar..."; sleep 10;'
+            - 'until nc -z -w 2 mysql 3306; do echo "aguardando o mysql responder na porta..."; sleep 2; done; echo "Porta aberta! Aguardando 10 segundos para o servidor estabilizar..."; sleep 10;'
       containers:
         - name: users-api
           image: anafmel/usersapi:latest
@@ -28,9 +28,24 @@ spec:
           ports:
             - containerPort: 8080
           env:       
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: users-api-config
+                  key: ASPNETCORE_ENVIRONMENT
             - name: AWS_ENDPOINT
               value: "http://localstack:4566"
-              
+            - name: AWS_ACCESS_KEY_ID
+              value: "test"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "test"
+            - name: AWS_DEFAULT_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: users-api-config
+                  key: AWS_DEFAULT_REGION
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=mysql;Database=users_db;Uid=root;Pwd=SenhaAdmin123!;"
             - name: MYSQL_HOST
               valueFrom:
                 configMapKeyRef:
@@ -70,10 +85,10 @@ spec:
           resources:
             requests:
               cpu: "100m"
-              memory: "256Mi"
+              memory: "128Mi"
             limits:
               cpu: "500m"
-              memory: "512Mi"  
+              memory: "256Mi"  
           readinessProbe:
             httpGet:
               path: /health/ready
@@ -88,3 +103,15 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-api
+spec:
+  type: ClusterIP
+  selector:
+    app: users-api
+  ports:
+    - port: 8080
+      targetPort: 8080

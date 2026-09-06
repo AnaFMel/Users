@@ -42,12 +42,12 @@ spec:
                   key: MYSQL_ROOT_PASSWORD
           livenessProbe:
             exec:
-              command: ["mysqladmin", "ping", "-h", "localhost"]
+              command: ["sh", "-c", "mysqladmin ping -h localhost -uroot -pSenhaAdmin123!"]
             initialDelaySeconds: 30
             periodSeconds: 10
           readinessProbe:
             exec:
-              command: ["mysqladmin", "ping", "-h", "localhost"]
+              command: ["sh", "-c", "mysqladmin ping -h localhost -uroot -pSenhaAdmin123!"]
             initialDelaySeconds: 15
             periodSeconds: 5
           volumeMounts:
@@ -61,7 +61,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service
+  name: mysql
 spec:
   type: ClusterIP
   selector:
