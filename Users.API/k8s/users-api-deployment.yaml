@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-api
+  name: user-api
   labels:
-    app: users-api
+    app: user-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: users-api
+      app: user-api
   template:
     metadata:
       labels:
-        app: users-api
+        app: user-api
     spec:
       initContainers:
         - name: wait-for-mysql
@@ -22,7 +22,7 @@ spec:
             - '-c'
             - 'until nc -z -w 2 mysql 3306; do echo "aguardando o mysql responder na porta..."; sleep 2; done; echo "Porta aberta! Aguardando 10 segundos para o servidor estabilizar..."; sleep 10;'
       containers:
-        - name: users-api
+        - name: user-api
           image: anafmel/usersapi:latest
           imagePullPolicy: Always
           ports:
@@ -31,7 +31,7 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               valueFrom:
                 configMapKeyRef:
-                  name: users-api-config
+                  name: user-api-config
                   key: ASPNETCORE_ENVIRONMENT
             - name: AWS_ENDPOINT
               value: "http://localstack:4566"
@@ -42,29 +42,29 @@ spec:
             - name: AWS_DEFAULT_REGION
               valueFrom:
                 configMapKeyRef:
-                  name: users-api-config
+                  name: user-api-config
                   key: AWS_DEFAULT_REGION
             - name: ConnectionStrings__DefaultConnection
               value: "Server=mysql;Database=users_db;Uid=root;Pwd=SenhaAdmin123!;"
             - name: MYSQL_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: users-api-config
+                  name: user-api-config
                   key: MYSQL_HOST
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: users-api-mysql-secrets
+                  name: user-api-mysql-secrets
                   key: MYSQL_DATABASE
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: users-api-mysql-secrets
+                  name: user-api-mysql-secrets
                   key: MYSQL_USER
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: users-api-mysql-secrets
+                  name: user-api-mysql-secrets
                   key: MYSQL_ROOT_PASSWORD
             - name: JWT_ISSUER
               valueFrom:
@@ -74,7 +74,7 @@ spec:
             - name: JWT_SECONDS
               valueFrom:
                 configMapKeyRef:
-                  name: users-api-config
+                  name: user-api-config
                   key: JWT_SECONDS
             - name: JWT_KEY
               valueFrom:
@@ -107,11 +107,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: users-api
+  name: user-api
 spec:
   type: ClusterIP
   selector:
-    app: users-api
+    app: user-api
   ports:
     - port: 8080
       targetPort: 8080

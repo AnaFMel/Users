@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: users-api-config
+  name: user-api-config
 data:
   MYSQL_HOST: "mysql"
   JWT_SECONDS: "3600"

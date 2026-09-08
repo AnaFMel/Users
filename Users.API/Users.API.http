@@ -1,9 +1,8 @@
-@Users.API_HostAddress = http://localhost:5000
 @Kong_HostAddress = http://localhost:8000
 
 ### 1. Autenticar e obter token
 # @name login
-POST {{Kong_HostAddress}}/api/users/auth
+POST {{Kong_HostAddress}}/user/auth
 Content-Type: application/json
 
 {
@@ -14,7 +13,7 @@ Content-Type: application/json
 ###
 
 ### 2. Criar usuário
-POST {{Kong_HostAddress}}/api/users/create
+POST {{Kong_HostAddress}}/user/create
 Authorization: Bearer {{login.response.body.$.token}}
 Content-Type: application/json
 
@@ -28,19 +27,19 @@ Content-Type: application/json
 ###
 
 ### 3. Obter todos os usuários 
-GET {{Kong_HostAddress}}/api/users/
+GET {{Kong_HostAddress}}/user/
 Authorization: Bearer {{login.response.body.$.token}}
 
 ###
 
 ### 4. Obter usuário pelo ID
-GET {{Kong_HostAddress}}/api/users/2
+GET {{Kong_HostAddress}}/user/2
 Authorization: Bearer {{login.response.body.$.token}}
 
 ###
 
 ### 5. Obter usuário pelo e-mail
-GET {{Kong_HostAddress}}/api/users/usuario.teste@fiap.com
+GET {{Kong_HostAddress}}/user/usuario.teste@fiap.com
 Authorization: Bearer {{login.response.body.$.token}}
 
 ###

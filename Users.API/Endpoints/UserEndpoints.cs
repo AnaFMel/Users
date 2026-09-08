@@ -11,7 +11,7 @@ namespace Users.API.Endpoints
     {
         public static void MapUserEndpoints(this IEndpointRouteBuilder routes)
         {
-            var group = routes.MapGroup("/api/users").WithTags("Users");
+            var group = routes.MapGroup("/user").WithTags("User");
 
             group.MapPost("/auth", async (LoginRequest dto, UserService _userService, CancellationToken cancellationToken) =>
             {
@@ -37,7 +37,7 @@ namespace Users.API.Endpoints
 
                 var response = _mapper.Map(userCreated!);
 
-                return Results.Created($"/api/users/{response.Id}", response);
+                return Results.Created($"/user/{response.Id}", response);
             })
             .RequireAuthorization(nameof(Policy.Admin));
 
