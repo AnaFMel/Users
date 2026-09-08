@@ -34,7 +34,7 @@ spec:
                   name: users-api-config
                   key: ASPNETCORE_ENVIRONMENT
             - name: AWS_ENDPOINT
-              value: "http://localstack:4566"
+              value: "http://host.docker.internal:4566"
             - name: AWS_ACCESS_KEY_ID
               value: "test"
             - name: AWS_SECRET_ACCESS_KEY
