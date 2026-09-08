@@ -19,4 +19,4 @@ Este projeto tem como objetivo autenticar o usuário, criar novos usuários e ob
 - **.NET 10**: Framework principal
 - **ASP.NET Core Minimal API**: API de Usuários
 - **MySql.EntityFrameworkCore 10.0.7**: Persistência de usuários
-- **MassTransit.RabbitMQ 8.3.4**: Biblioteca para comunicação com RabbitMQ
+- **MassTransit.AmazonSQS 8.3.4**: Biblioteca para abstração da comunicação com AmazonSQS
