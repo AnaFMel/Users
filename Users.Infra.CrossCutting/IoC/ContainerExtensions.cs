@@ -13,12 +13,7 @@ namespace Users.Infra.CrossCutting.IoC
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            var user = Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root";
-            var password = Environment.GetEnvironmentVariable("MYSQL_ROOT_PASSWORD") ?? "SenhaAdmin123!";
-            var database = Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "users_db";
-            var host = Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost";
-
-            var connectionString = $"Server={host};Port=3306;Database={database};Uid={user};Pwd={password}";
+            var connectionString = configuration["MySqlConnectionString"] ?? string.Empty;
 
             services.AddDbContext<MySqlContext>(options =>
             {

@@ -13,24 +13,22 @@ namespace Users.Domain.Services
         private readonly IUserRepository _userRepository;
         private readonly PasswordService _passwordService;
         private readonly JwtService _jwtService;
-        private readonly ISendEndpointProvider _sendEndpointProvider;
+        private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<UserService> _logger;
-        private readonly string _queueName;
 
         public UserService(
             IUserRepository userRepository,
             PasswordService passwordService,
             JwtService jwtService,
-            ISendEndpointProvider sendEndpointProvider,
+            IPublishEndpoint publishEndpoint,
             ILogger<UserService> logger,
             IConfiguration configuration)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
             _jwtService = jwtService;
-            _sendEndpointProvider = sendEndpointProvider;
+            _publishEndpoint = publishEndpoint;
             _logger = logger;
-            _queueName = configuration["USERS_QUEUE_NAME"] ?? "users-queue";
         }
 
         public async Task Add(User user, CancellationToken cancellationToken)
@@ -43,10 +41,9 @@ namespace Users.Domain.Services
 
             _logger.LogInformation($"Usuário '{user.Name}' ({user.Email}) cadastrado com sucesso! Id: {user.Id}.");
 
-            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{_queueName}"));
-            await endpoint.Send(new UserCreatedEvent(user.Id, user.Name, user.Email, user.RoleId), cancellationToken);
+            await _publishEndpoint.Publish(new UserCreatedEvent(user.Id, user.Name, user.Email, user.RoleId), cancellationToken);
 
-            _logger.LogInformation($"Evento 'UserCreatedEvent' enviado com sucesso para a fila {_queueName}!" +
+            _logger.LogInformation($"Evento 'UserCreatedEvent' enviado com sucesso para o tópico." +
                                    $"\nUserId: {user.Id}." +
                                    $"\nUserName: {user.Name}." +
                                    $"\nUserEmail: {user.Email}." +

@@ -3,7 +3,5 @@ kind: ConfigMap
 metadata:
   name: user-api-config
 data:
-  MYSQL_HOST: "mysql"
   JWT_SECONDS: "3600"
-  ASPNETCORE_ENVIRONMENT: "Development"
-  AWS_DEFAULT_REGION: "us-east-1"
+  USERS_TOPIC: "users-topic"

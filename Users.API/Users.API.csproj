@@ -9,9 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AWSSDK.SQS" Version="3.7.400.30" />
-		<PackageReference Include="MassTransit" Version="8.3.4" />
-		<PackageReference Include="MassTransit.AmazonSQS" Version="8.3.4" />
+		<PackageReference Include="AWSSDK.SecretsManager" Version="4.0.100.15" />
+		<PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.3.4" />
 		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.3.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
