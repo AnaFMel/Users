@@ -57,7 +57,7 @@ jobs:
       - name: Build and Push UsersAPI Docker Image
         run: |
           REGISTRY_URL=fcgpostech.azurecr.io
-          docker build -f Dockerfile -t $REGISTRY_URL/users-api:${{ github.sha }} -t $REGISTRY_URL/users-api:latest .
+          docker build -f src/UsersAPI/Dockerfile -t $REGISTRY_URL/users-api:${{ github.sha }} -t $REGISTRY_URL/users-api:latest .
           docker push $REGISTRY_URL/users-api:${{ github.sha }}
           docker push $REGISTRY_URL/users-api:latest
 
