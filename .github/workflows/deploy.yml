@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - UsersAPI
+name: CI/CD Pipeline - Users.API
 
 on:
   push:
@@ -54,12 +54,12 @@ jobs:
           az acr login --name fcgpostech
 
       # 3. Build & Push da Imagem da UsersAPI
-      - name: Build and Push UsersAPI Docker Image
+      - name: Build and Push Users.API Docker Image
         run: |
           REGISTRY_URL=fcgpostech.azurecr.io
-          docker build -f Users.API/Dockerfile -t $REGISTRY_URL/users-api:${{ github.sha }} -t $REGISTRY_URL/users-api:latest .
-          docker push $REGISTRY_URL/users-api:${{ github.sha }}
-          docker push $REGISTRY_URL/users-api:latest    
+          docker build -f Users.API/Dockerfile -t $REGISTRY_URL/user-api:${{ github.sha }} -t $REGISTRY_URL/user-api:latest .
+          docker push $REGISTRY_URL/user-api:${{ github.sha }}
+          docker push $REGISTRY_URL/user-api:latest    
 
       # =========================================================================
       # ETAPAS DO AKS COMENTADAS PARA EVITAR CUSTOS ENQUANTO O CLUSTER ESTÁ DESLIGADO
@@ -72,8 +72,8 @@ jobs:
       #     cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
       # 5. Deploy no Kubernetes (Rolling Update)
-      # - name: Deploy UsersAPI to K8s
+      # - name: Deploy Users.API to K8s
       #   run: |
       #     REGISTRY_URL=fcgpostech.azurecr.io
-      #     kubectl set image deployment/users-api users-api=$REGISTRY_URL/users-api:${{ github.sha }}
+      #     kubectl set image deployment/users-api user-api=$REGISTRY_URL/user-api:${{ github.sha }}
       #     kubectl rollout status deployment/users-api --timeout=120s
