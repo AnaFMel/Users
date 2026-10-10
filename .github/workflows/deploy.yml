@@ -1,0 +1,76 @@
+name: CI/CD Pipeline - UsersAPI
+
+on:
+  push:
+    branches:
+      - cloud
+  pull_request:
+    branches:
+      - cloud
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Unit Tests (.NET 10)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run Unit Tests
+        run: dotnet test --no-build --configuration Release --verbosity normal
+
+  deploy:
+    name: Build Docker Image & Deploy to AKS
+    needs: build-and-test
+    if: github.ref == 'refs/heads/cloud' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. Autenticação na Azure
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # 2. Login no ACR
+      - name: Login to Azure Container Registry (ACR)
+        run: |
+          az acr login --name fcgpostech
+
+      # 3. Build & Push da Imagem da UsersAPI
+      - name: Build and Push UsersAPI Docker Image
+        run: |
+          REGISTRY_URL=fcgpostech.azurecr.io
+          docker build -f Dockerfile -t $REGISTRY_URL/users-api:${{ github.sha }} -t $REGISTRY_URL/users-api:latest .
+          docker push $REGISTRY_URL/users-api:${{ github.sha }}
+          docker push $REGISTRY_URL/users-api:latest
+
+      # 4. Configurar contexto do AKS
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+
+      # 5. Deploy no Kubernetes (Rolling Update)
+      - name: Deploy UsersAPI to K8s
+        run: |
+          REGISTRY_URL=fcgpostech.azurecr.io
+          kubectl set image deployment/users-api users-api=$REGISTRY_URL/users-api:${{ github.sha }}
+          kubectl rollout status deployment/users-api --timeout=120s
