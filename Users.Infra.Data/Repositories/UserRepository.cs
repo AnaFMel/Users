@@ -7,10 +7,10 @@ namespace Users.Infra.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        protected readonly MySqlContext _context;
+        protected readonly SqlServerContext _context;
         protected readonly DbSet<User> _dbSet;
 
-        public UserRepository(MySqlContext context)
+        public UserRepository(SqlServerContext context)
         {
             _context = context;
             _dbSet = _context.Set<User>();

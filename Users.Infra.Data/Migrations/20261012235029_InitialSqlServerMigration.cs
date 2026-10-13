@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -9,41 +8,37 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Users.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialSqlServerMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySQL:Charset", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "roles",
                 columns: table => new
                 {
                     role_id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    role_name = table.Column<string>(type: "varchar(5)", nullable: false),
-                    role_createdat = table.Column<DateTime>(type: "timestamp", nullable: false, defaultValueSql: "current_timestamp()")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    role_name = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    role_createdate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_roles", x => x.role_id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
                     user_id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    user_email = table.Column<string>(type: "varchar(50)", nullable: false),
-                    user_password = table.Column<string>(type: "varchar(255)", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    user_email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    user_password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     role_id = table.Column<int>(type: "int", nullable: false),
-                    user_name = table.Column<string>(type: "varchar(100)", nullable: false),
-                    user_status = table.Column<string>(type: "char(1)", nullable: false, defaultValue: "A"),
-                    user_createdat = table.Column<DateTime>(type: "timestamp", nullable: false, defaultValueSql: "current_timestamp()")
+                    user_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    user_status = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false, defaultValue: "A"),
+                    user_createdate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
                 constraints: table =>
                 {
@@ -54,8 +49,7 @@ namespace Users.Infra.Data.Migrations
                         principalTable: "roles",
                         principalColumn: "role_id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.InsertData(
                 table: "roles",
@@ -68,8 +62,8 @@ namespace Users.Infra.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "users",
-                columns: new[] { "user_id", "user_email", "user_name", "user_password", "role_id" },
-                values: new object[] { 1, "admin@fiapcloud.com.br", "Admin", "$2a$12$1fnACQaLEiWjjV4N7aMtyuzvD.s8neAd.iK/r759gwEL.zutiMCVq", 1 });
+                columns: new[] { "user_id", "user_email", "user_name", "user_password", "role_id", "user_status" },
+                values: new object[] { 1, "admin@fiapcloud.com.br", "Admin", "$2a$12$20CoSGop/LM7eZ.6A4S68.B8zfIDD5oW8FQnfVCxV90BoSF498mbO", 1, "A" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_role_id",

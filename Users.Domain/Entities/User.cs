@@ -18,6 +18,7 @@
             Email = email;
             Password = password;
             RoleId = roleId;
+            Status = 'A';
         }
 
         protected User() : base() { }

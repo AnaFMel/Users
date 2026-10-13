@@ -1,17 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Users.Domain.Entities;
-using Users.Domain.Services;
 using Users.Infra.Data.Configurations;
 
 namespace Users.Infra.Data.Contexts
 {
-    public class MySqlContext : DbContext
+    public class SqlServerContext : DbContext
     {
-        private readonly PasswordService _passwordService;
-
-        public MySqlContext(PasswordService senhaService, DbContextOptions<MySqlContext> options) : base(options)
+        public SqlServerContext(DbContextOptions<SqlServerContext> options) : base(options)
         {
-            _passwordService = senhaService;
         }
 
         public DbSet<User> Users { get; set; }
@@ -24,7 +20,7 @@ namespace Users.Infra.Data.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration(_passwordService));
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

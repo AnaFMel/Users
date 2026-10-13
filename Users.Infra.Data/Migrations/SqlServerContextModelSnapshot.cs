@@ -2,7 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Users.Infra.Data.Contexts;
 
@@ -10,17 +10,17 @@ using Users.Infra.Data.Contexts;
 
 namespace Users.Infra.Data.Migrations
 {
-    [DbContext(typeof(MySqlContext))]
-    [Migration("20260621160452_UpdateConfig")]
-    partial class UpdateConfig
+    [DbContext(typeof(SqlServerContext))]
+    partial class SqlServerContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Users.Domain.Entities.Role", b =>
                 {
@@ -29,15 +29,18 @@ namespace Users.Infra.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("role_id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("role_createdat")
-                        .HasDefaultValueSql("current_timestamp()");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("role_createdate")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(5)")
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)")
                         .HasColumnName("role_name");
 
                     b.HasKey("Id");
@@ -66,25 +69,30 @@ namespace Users.Infra.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("user_id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("user_createdat")
-                        .HasDefaultValueSql("current_timestamp()");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("user_createdate")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("user_email");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("user_name");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("user_password");
 
                     b.Property<int>("RoleId")
@@ -94,7 +102,8 @@ namespace Users.Infra.Data.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(1)")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)")
                         .HasDefaultValue("A")
                         .HasColumnName("user_status");
 
@@ -111,9 +120,9 @@ namespace Users.Infra.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@fiapcloud.com.br",
                             Name = "Admin",
-                            Password = "$2a$12$8b5.j/Yj6EwG.Gl.x0zame3GUA7PGid9N1/twuLSPFAuk/b9wR5Me",
+                            Password = "$2a$12$20CoSGop/LM7eZ.6A4S68.B8zfIDD5oW8FQnfVCxV90BoSF498mbO",
                             RoleId = 1,
-                            Status = "\0"
+                            Status = "A"
                         });
                 });
 

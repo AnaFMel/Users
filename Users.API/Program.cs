@@ -30,8 +30,8 @@ builder.Services.AddSingleton<Mapper>();
 
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy(), tags: ["live"])
-    .AddDbContextCheck<MySqlContext>(
-        name: "mysql",
+    .AddDbContextCheck<SqlServerContext>(
+        name: "sqlServer",
         tags: ["ready"]);
 
 #region MassTransit (Azure Service Bus)

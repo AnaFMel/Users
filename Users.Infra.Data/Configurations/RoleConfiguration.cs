@@ -18,24 +18,22 @@ namespace Users.Infra.Data.Configurations
             builder
                 .Property(p => p.Id)
                 .HasColumnName("role_id")
-                .HasColumnType("int")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder
                 .Property(p => p.Name)
                 .HasColumnName("role_name")
-                .HasColumnType("varchar(5)")
+                .HasMaxLength(5)
                 .IsRequired();
 
             builder
                 .Ignore(p => p.Status);
 
-            builder
-                .Property(p => p.CreatedAt)
-                .HasColumnName("role_createdat")
-                .HasColumnType("timestamp")
-                .HasDefaultValueSql("current_timestamp()")
+            builder.Property(p => p.CreatedAt)
+                .HasColumnName("role_createdate")
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("GETDATE()")
                 .IsRequired();
 
             builder

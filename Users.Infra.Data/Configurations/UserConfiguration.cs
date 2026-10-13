@@ -1,19 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Users.Domain.Entities;
-using Users.Domain.Services;
 
 namespace Users.Infra.Data.Configurations
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        private readonly PasswordService _passwordService;
-
-        public UserConfiguration(PasswordService passwordService)
-        {
-            _passwordService = passwordService;
-        }
-
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
@@ -25,46 +17,43 @@ namespace Users.Infra.Data.Configurations
             builder
                 .Property(u => u.Id)
                 .HasColumnName("user_id")
-                .HasColumnType("int") 
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder
                 .Property(u => u.Name)
                 .HasColumnName("user_name")
-                .HasColumnType("varchar(100)")
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder
                 .Property(u => u.Email)
                 .HasColumnName("user_email")
-                .HasColumnType("varchar(50)")
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder
                 .Property(u => u.Password)
                 .HasColumnName("user_password")
-                .HasColumnType("varchar(255)")
+                .HasMaxLength(255)
                 .IsRequired();
 
             builder
                 .Property(u => u.Status)
                 .HasColumnName("user_status")
-                .HasColumnType("char(1)")
+                .HasMaxLength(1)
                 .HasDefaultValue("A")
                 .IsRequired();
 
             builder
                 .Property(u => u.RoleId)
                 .HasColumnName("role_id")
-                .HasColumnType("int")
                 .IsRequired();
 
-            builder
-                .Property(u => u.CreatedAt)
-                .HasColumnName("user_createdat")
-                .HasColumnType("timestamp")
-                .HasDefaultValueSql("current_timestamp()")
+            builder.Property(p => p.CreatedAt)
+                .HasColumnName("user_createdate")
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("GETDATE()")
                 .IsRequired();
 
             builder
@@ -73,7 +62,7 @@ namespace Users.Infra.Data.Configurations
                 .HasForeignKey(u => u.RoleId);
 
             builder
-                .HasData(new User(1, "Admin", "admin@fiapcloud.com.br", _passwordService.CreateHash("admin"), 1));
+                .HasData(new User(1, "Admin", "admin@fiapcloud.com.br", "$2a$12$20CoSGop/LM7eZ.6A4S68.B8zfIDD5oW8FQnfVCxV90BoSF498mbO", 1));
         }
     }
 }

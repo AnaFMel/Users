@@ -13,13 +13,13 @@ namespace Users.Infra.CrossCutting.IoC
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration["MySqlConnectionString"] ?? string.Empty;
+            var connectionString = configuration["SqlServerConnectionString"] ?? string.Empty;
 
-            services.AddDbContext<MySqlContext>(options =>
+            services.AddDbContext<SqlServerContext>(options =>
             {
-                options.UseMySQL(connectionString, mysqlOptions =>
+                options.UseSqlServer(connectionString, options =>
                 {
-                    mysqlOptions.EnableRetryOnFailure(
+                    options.EnableRetryOnFailure(
                         maxRetryCount: 10,
                         maxRetryDelay: TimeSpan.FromSeconds(5),
                         errorNumbersToAdd: null
