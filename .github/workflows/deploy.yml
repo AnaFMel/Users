@@ -68,11 +68,16 @@ jobs:
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
-      # 5. Deploy no Kubernetes
+      # 5. Deploy no Kubernetes (Cria ou Atualiza com base nos manifestos)
       - name: Deploy Users.API to K8s
         run: |
           REGISTRY_URL=fiapcg.azurecr.io
-          sed -i "s|image: .*user-api:.*|image: $REGISTRY_URL/user-api:${{ github.sha }}|g" Users.API/k8s/user-api.yaml
-          kubectl apply -f Users.API/k8s/ 
-          # Acompanha o estado do rollout 
+          
+          # Atualiza a tag da imagem dinamicamente
+          sed -i "s|image: .*user-api:.*|image: $REGISTRY_URL/user-api:${{ github.sha }}|g" Users.API/k8s/users-api-deployment.yaml
+          
+          # Aplica todos os manifestos da pasta do Kubernetes da API
+          kubectl apply -f Users.API/k8s/
+          
+          # Acompanha o estado do rollout
           kubectl rollout status deployment/user-api --timeout=120s
