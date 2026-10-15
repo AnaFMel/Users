@@ -17,6 +17,7 @@ namespace Users.Domain.Services.Security
                 [
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.UniqueName, email),
+                    new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimTypes.Actor, name),
                     new Claim(ClaimTypes.Role, role)
                 ]
