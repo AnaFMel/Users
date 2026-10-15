@@ -53,7 +53,7 @@ jobs:
         run: |
           az acr login --name fiapcg
 
-      # 3. Build & Push da Imagem da UsersAPI
+      # 3. Build & Push da Imagem da Users.API
       - name: Build and Push Users.API Docker Image
         run: |
           REGISTRY_URL=fiapcg.azurecr.io
@@ -61,19 +61,23 @@ jobs:
           docker push $REGISTRY_URL/user-api:${{ github.sha }}
           docker push $REGISTRY_URL/user-api:latest    
 
-      # =========================================================================
-      # ETAPAS DO AKS COMENTADAS PARA EVITAR CUSTOS ENQUANTO O CLUSTER ESTÁ DESLIGADO
-      # =========================================================================
       # 4. Configurar contexto do AKS
-      # - name: Set AKS Context
-      #   uses: azure/aks-set-context@v3
-      #   with:
-      #     resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-      #     cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
-      # 5. Deploy no Kubernetes (Rolling Update)
-      # - name: Deploy Users.API to K8s
-      #   run: |
-      #     REGISTRY_URL=fiapcg.azurecr.io
-      #     kubectl set image deployment/users-api user-api=$REGISTRY_URL/user-api:${{ github.sha }}
-      #     kubectl rollout status deployment/users-api --timeout=120s
+      # 5. Deploy no Kubernetes (Cria ou Atualiza com base nos manifestos)
+      - name: Deploy Users.API to K8s
+        run: |
+          REGISTRY_URL=fiapcg.azurecr.io
+          
+          # Atualiza a tag da imagem dinamicamente
+          sed -i "s|image: .*user-api:.*|image: $REGISTRY_URL/user-api:${{ github.sha }}|g" Users.API/k8s/users-api-deployment.yaml
+          
+          # Aplica todos os manifestos da pasta do Kubernetes da API
+          kubectl apply -f Users.API/k8s/
+          
+          # Acompanha o estado do rollout
+          kubectl rollout status deployment/user-api --timeout=120s
