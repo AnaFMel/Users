@@ -15,10 +15,14 @@ using Users.Infra.Data.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var vaultUriStr = Environment.GetEnvironmentVariable("KeyVaultUri") ?? string.Empty;
-var vaultUri = new Uri(vaultUriStr);
+// Substitua o bloco atual do Key Vault por este:
+var vaultUriStr = Environment.GetEnvironmentVariable("KeyVaultUri") ?? builder.Configuration["KeyVaultUri"];
 
-builder.Configuration.AddAzureKeyVault(vaultUri, new DefaultAzureCredential());
+if (!string.IsNullOrEmpty(vaultUriStr) && Uri.TryCreate(vaultUriStr, UriKind.Absolute, out var vaultUri))
+{
+    // Só tenta conectar ao Key Vault se houver uma URI válida configurada
+    builder.Configuration.AddAzureKeyVault(vaultUri, new DefaultAzureCredential());
+}
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddCors();

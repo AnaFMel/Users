@@ -1,4 +1,4 @@
-@Kong_HostAddress = http://localhost:8000
+@Kong_HostAddress = http://20.88.187.29:8000
 
 ### 1. Autenticar e obter token
 # @name login

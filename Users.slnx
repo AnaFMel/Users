@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Fcg.Contracts/Fcg.Contracts.csproj" Id="13f3d65d-5a3f-4e7e-be52-7116f4e924ce" />
+  <Project Path="TestProject1Users.Tests/Users.Tests.csproj" Id="c6ef17a3-f59f-4d01-a087-0c4a894e9724" />
   <Project Path="Users.API/Users.API.csproj" />
   <Project Path="Users.Domain/Users.Domain.csproj" Id="a5a229ca-59bc-4c84-84b5-bf9ab5eed813" />
   <Project Path="Users.Infra.CrossCutting/Users.Infra.CrossCutting.csproj" Id="86f7dd48-dddc-4719-801a-47775c6b2448" />
