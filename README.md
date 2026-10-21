@@ -5,8 +5,8 @@ Este projeto tem como objetivo autenticar o usuário, criar novos usuários e ob
 ## Estrutura do Projeto
 
 - **Users.API**: Aplicação ASP.NET Core Minimal API responsável pela autenticação, criação e obtenção de dados dos usuários. 
-- **SQL Server**: Banco de dados relacional responsável pela persistência dos dados dos usuários.
 - **Users.Tests**: Testes de integração e testes unitários dos principais serviços da aplicação.
+- **SQL Server**: Banco de dados relacional responsável pela persistência dos dados dos usuários.
 
 ## Tecnologias Utilizadas
 
